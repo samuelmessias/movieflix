@@ -1,0 +1,27 @@
+.home-container {
+  margin: 12px 18px 19px 18px;
+}
+
+.home-container h1 {
+  color: #ffffff;
+  display: flex;
+  justify-content: left;
+  font-size: 24px;
+}
+
+.home-content {
+  margin-top: 15px;
+  color: #ffffff;
+}
+
+@media (min-width: 576px) {
+  .home-container h1 {
+    font-size: 36px;
+  }
+}
+
+@media (min-width: 776px) {
+  .home-container h1 {
+    font-size: 48px;
+  }
+}

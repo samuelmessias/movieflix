@@ -1,0 +1,25 @@
+.card-container {
+    margin-bottom: 15px;
+}
+.card-container h3{
+    font-size: 16px;
+    color: #ffff;
+}
+
+.card-head {
+    display: flex;
+    
+   
+}
+
+
+
+.card-content {
+    padding: 10px;
+    border: 1px solid #ffff;
+    border-radius: 4px;
+}
+
+.card-content p{
+    font-size: 16px;
+}
