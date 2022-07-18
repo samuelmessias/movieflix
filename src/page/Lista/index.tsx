@@ -1,15 +1,32 @@
+import { AxiosRequestConfig } from 'axios';
 import ButtonIcon from 'component/ButtonIcon';
 import Card from 'component/Card';
-import Navbar from 'component/Navbar';
+import { useEffect, useState } from 'react';
+import { Movei } from 'util/movie';
+import { requestBackend, requestBackendLogin } from 'util/requests';
 import './style.css';
 
 const Lista = () => {
+
+  const [movie, setMovie] = useState<Movei>();
+
+  useEffect(() => {
+    const params : AxiosRequestConfig = {
+      url: '/movies/1',
+      withCredentials: true,      
+    };
+ 
+    requestBackend(params).then((response) => {
+      setMovie(response.data);
+    });
+  }, []);
+
   
   return (
     <div>      
       <div className="list-main">
         <div className="list-container">
-          <h1>Tela detalhes do filme id: 1</h1>
+          <h1>{movie?.title}  {movie?.subTitle}</h1>
         </div>
         <div className="base-card list-form">
           <form>

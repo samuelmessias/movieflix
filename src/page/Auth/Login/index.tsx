@@ -1,7 +1,8 @@
 import { type } from '@testing-library/user-event/dist/type';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { requestBackendLogin } from 'util/requests';
+import { useHistory } from 'react-router-dom';
+import { getAuthData, requestBackendLogin, saveAuthData } from 'util/requests';
 import ButtonIcon from '../../../component/ButtonIcon';
 import './styles.css';
 
@@ -13,12 +14,27 @@ type FormData = {
 const Login = () => {
   const [hasError, setHasError] = useState(false);
 
-  const { register, handleSubmit, formState: {errors} } = useForm<FormData>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+
+const history = useHistory();
+
   const onSubmit = (formData: FormData) => {
     requestBackendLogin(formData)
       .then((response) => {
+        saveAuthData(response.data);
+
+        const token = getAuthData().access_token;
+        console.log('TOKEN GERADO: ' + token);
+
         setHasError(false);
         console.log('SUCESSO', response);
+
+        history.push("/");
+
       })
       .catch((error) => {
         setHasError(true);
@@ -40,29 +56,37 @@ const Login = () => {
             <input
               {...register('username', {
                 required: 'Campo ogrigatório',
-                pattern : {
+                pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: 'Email inválido'
-                }
+                  message: 'Email inválido',
+                },
               })}
               type="text"
-              className={`form-control base-input ${errors.username ? 'is-invalid': '' }` }
+              className={`form-control base-input ${
+                errors.username ? 'is-invalid' : ''
+              }`}
               placeholder="Email"
               name="username"
             />
-            <div className="invalid-feedback d-block">{errors.username?.message}</div>
+            <div className="invalid-feedback d-block">
+              {errors.username?.message}
+            </div>
           </div>
           <div className="mb-2">
             <input
-              {...register('password',{
-                required: 'Campo ogrigatório'
+              {...register('password', {
+                required: 'Campo ogrigatório',
               })}
               type="password"
-              className={`form-control base-input ${errors.password ? 'is-invalid': '' }` }
+              className={`form-control base-input ${
+                errors.password ? 'is-invalid' : ''
+              }`}
               placeholder="Password"
               name="password"
             />
-            <div className="invalid-feedback d-block">{errors.password?.message}</div>
+            <div className="invalid-feedback d-block">
+              {errors.password?.message}
+            </div>
           </div>
 
           <div className="login-submit">
