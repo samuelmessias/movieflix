@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { AuthContext } from 'AuthContext';
+import { useContext, useEffect, useState } from 'react';
 import history from 'util/history';
 import {
   getTokenData,
@@ -8,31 +9,31 @@ import {
 } from 'util/requests';
 import './styles.css';
 
-type AuthData = {
-  authenticated: boolean;
-  tokenData?: TokenData;
-};
+
 
 const Navbar = () => {
-  const [authData, SetAuthData] = useState<AuthData>({ authenticated: false });
+
+const { authContextData, setAuthContextData } = useContext(AuthContext);
+
+ 
 
   useEffect(() => {
     if (isAuthenticated()) {
-      SetAuthData({
+      setAuthContextData({
         authenticated: true,
         tokenData: getTokenData(),
       });
     } else {
-      SetAuthData({
+      setAuthContextData({
         authenticated: false,
       });
     }
-  }, []);
+  }, [setAuthContextData]);
 
   const handleLogoutClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     removeAuthData();
-    SetAuthData({
+    setAuthContextData({
       authenticated: false,
     });
     history.replace('/');
@@ -45,7 +46,7 @@ const Navbar = () => {
           <h4>MovieFlix</h4>
         </a>
 
-        {authData.authenticated ? (
+        {authContextData.authenticated ? (
           <div className="nav-sair">
             <a href="#" onClick={handleLogoutClick}>
               Sair

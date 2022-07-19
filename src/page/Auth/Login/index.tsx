@@ -1,8 +1,9 @@
 import { type } from '@testing-library/user-event/dist/type';
-import { useState } from 'react';
+import { AuthContext } from 'AuthContext';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { getAuthData, requestBackendLogin, saveAuthData } from 'util/requests';
+import { getAuthData, getTokenData, requestBackendLogin, saveAuthData } from 'util/requests';
 import ButtonIcon from '../../../component/ButtonIcon';
 import './styles.css';
 
@@ -12,6 +13,8 @@ type FormData = {
 };
 
 const Login = () => {
+  const { setAuthContextData } = useContext(AuthContext);
+
   const [hasError, setHasError] = useState(false);
 
   const {
@@ -27,12 +30,13 @@ const history = useHistory();
       .then((response) => {
         saveAuthData(response.data);
 
-        const token = getAuthData().access_token;
-        console.log('TOKEN GERADO: ' + token);
-
+        const token = getAuthData().access_token; 
         setHasError(false);
-        console.log('SUCESSO', response);
-
+        
+        setAuthContextData({
+          authenticated: true,
+          tokenData: getTokenData(),
+        });
         history.push("/");
 
       })
