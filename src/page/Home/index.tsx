@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Movei } from 'util/movie';
-import { getTokenData, isAuthenticated, requestBackend } from 'util/requests';
+import { getTokenData, hasAnyRoles, isAuthenticated, requestBackend } from 'util/requests';
 import './styles.css';
 
 const Home = () => {

@@ -4,7 +4,11 @@ import Card from 'component/Card';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Movei } from 'util/movie';
-import { requestBackend, requestBackendLogin } from 'util/requests';
+import {
+  hasAnyRoles,
+  requestBackend,
+  requestBackendLogin,
+} from 'util/requests';
 import './style.css';
 
 type UrlParams = {
@@ -17,39 +21,42 @@ const Lista = () => {
   const [movie, setMovie] = useState<Movei>();
 
   useEffect(() => {
-    const params : AxiosRequestConfig = {
+    const params: AxiosRequestConfig = {
       url: `/movies/${movieId}`,
-      withCredentials: true,      
+      withCredentials: true,
     };
- 
+
     requestBackend(params).then((response) => {
       setMovie(response.data);
     });
   }, []);
 
-  
   return (
-    <div>      
+    <div>
       <div className="list-main">
         <div className="list-container">
-          <h1>{movie?.title}  {movie?.subTitle}</h1>
+          <h1>
+            {movie?.title} {movie?.subTitle}
+          </h1>
         </div>
-        <div className="base-card list-form">
-          <form>
-            <div className="mb-4">
-              <input
-                type="text"
-                className="form-control base-input"
-                placeholder="Email"
-                name="pesquisar"
-              />
-            </div>
+        {hasAnyRoles(['ROLE_MEMBER']) && (
+          <div className="base-card list-form">
+            <form>
+              <div className="mb-4">
+                <input
+                  type="text"
+                  className="form-control base-input"
+                  placeholder="Email"
+                  name="pesquisar"
+                />
+              </div>
 
-            <div className="login-submit">
-              <ButtonIcon text="SALVAR AVALIAÇÃO" />
-            </div>
-          </form>
-        </div>
+              <div className="login-submit">
+                <ButtonIcon text="SALVAR AVALIAÇÃO" />
+              </div>
+            </form>
+          </div>
+        )}
         <div className="base-card list-card">
           <Card />
           <Card />

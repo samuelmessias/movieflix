@@ -2,7 +2,7 @@ import { type } from '@testing-library/user-event/dist/type';
 import { AuthContext } from 'AuthContext';
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { getAuthData, getTokenData, requestBackendLogin, saveAuthData } from 'util/requests';
 import ButtonIcon from '../../../component/ButtonIcon';
 import './styles.css';
@@ -12,7 +12,16 @@ type FormData = {
   password: string;
 };
 
+type LocationState = {
+  from: string;
+}
+
+
 const Login = () => {
+const location = useLocation<LocationState>();
+
+const { from } = location.state || { from: {pathname: '/movies' }}
+
   const { setAuthContextData } = useContext(AuthContext);
 
   const [hasError, setHasError] = useState(false);
@@ -37,7 +46,7 @@ const history = useHistory();
           authenticated: true,
           tokenData: getTokenData(),
         });
-        history.push("/");
+        history.replace(from);
 
       })
       .catch((error) => {
