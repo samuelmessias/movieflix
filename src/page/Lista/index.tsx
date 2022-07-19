@@ -2,17 +2,23 @@ import { AxiosRequestConfig } from 'axios';
 import ButtonIcon from 'component/ButtonIcon';
 import Card from 'component/Card';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Movei } from 'util/movie';
 import { requestBackend, requestBackendLogin } from 'util/requests';
 import './style.css';
 
+type UrlParams = {
+  movieId: string;
+};
+
 const Lista = () => {
+  const { movieId } = useParams<UrlParams>();
 
   const [movie, setMovie] = useState<Movei>();
 
   useEffect(() => {
     const params : AxiosRequestConfig = {
-      url: '/movies/1',
+      url: `/movies/${movieId}`,
       withCredentials: true,      
     };
  

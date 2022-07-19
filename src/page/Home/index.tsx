@@ -2,9 +2,9 @@ import { AxiosRequestConfig } from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Movei } from 'util/movie';
-import { requestBackend } from 'util/requests';
-import Navbar from '../../component/Navbar';
+import { getTokenData, isAuthenticated, requestBackend } from 'util/requests';
 import './styles.css';
+
 const Home = () => {
   const [movies, setMovies] = useState<Movei[]>([]);
 
@@ -21,7 +21,7 @@ const Home = () => {
   }, []);
 
   return (
-    <>
+    <>    
       <div className="home-container">
         <h1>Tela listagem de filmes</h1>
 
