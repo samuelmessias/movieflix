@@ -3,14 +3,34 @@
     padding: 18px;
     font-size: 40px;
     font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
     
 }
 
 .nav-container a {
-    height: 68px;
+   
     margin: 0;
     color: #000000;
     text-decoration: none;
     
     
+}
+
+.nav-sair {
+    color: #000000;
+    border-radius: 10px;
+    padding: 3px;
+    height: 30px;
+    width: 90px;
+    font-size: 16px;
+    border: 1px solid #000000;
+    
+}
+
+.nav-sair a{
+      
+    display: flex;
+    justify-content: center;
 }

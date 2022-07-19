@@ -10,7 +10,8 @@ const Routes = () => (
   <Router history={history}>
     <Navbar />
     <Switch>
-      <Route path="/" exact>
+    <Redirect from="/" to="/movies" exact />
+      <Route path="/movies" exact>
         <Home />
       </Route>
       <Route path="/movies/:movieId" exact>
