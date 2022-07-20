@@ -1,14 +1,16 @@
-import { AxiosRequestConfig } from 'axios';
-import ButtonIcon from 'component/ButtonIcon';
+import axios, { AxiosRequestConfig } from 'axios';
 import Card from 'component/Card';
+import ReviewForm from 'component/ReviewForm';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Movei } from 'util/movie';
+
 import {
+  BASE_URL,
   hasAnyRoles,
   requestBackend,
   requestBackendLogin,
 } from 'util/requests';
+import { Review } from 'util/review';
 import './style.css';
 
 type UrlParams = {
@@ -18,50 +20,38 @@ type UrlParams = {
 const Lista = () => {
   const { movieId } = useParams<UrlParams>();
 
-  const [movie, setMovie] = useState<Movei>();
+  const [reviews, setReview] = useState<Review[]>([]);
 
   useEffect(() => {
     const params: AxiosRequestConfig = {
-      url: `/movies/${movieId}`,
+      url: `/movies/${movieId}/reviews`,
       withCredentials: true,
     };
 
     requestBackend(params).then((response) => {
-      setMovie(response.data);
+      setReview(response.data);
     });
-  }, []);
+  }, [movieId]);
+
+  const handleInsertReview = (review: Review) => {
+    const clone = [...reviews];
+    clone.push(review);
+    setReview(clone);
+  };
 
   return (
     <div>
       <div className="list-main">
         <div className="list-container">
-          <h1>
-            {movie?.title} {movie?.subTitle}
-          </h1>
+          <h1>Tela detalhe do filme id: {movieId}</h1>
         </div>
         {hasAnyRoles(['ROLE_MEMBER']) && (
-          <div className="base-card list-form">
-            <form>
-              <div className="mb-4">
-                <input
-                  type="text"
-                  className="form-control base-input"
-                  placeholder="Email"
-                  name="pesquisar"
-                />
-              </div>
-
-              <div className="login-submit">
-                <ButtonIcon text="SALVAR AVALIAÇÃO" />
-              </div>
-            </form>
-          </div>
+          <ReviewForm movieId={movieId} onInsertReview={handleInsertReview} />
         )}
         <div className="base-card list-card">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+          {reviews.map((review) => {
+            return <Card review={review} />;
+          })}
         </div>
       </div>
     </div>

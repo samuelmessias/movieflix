@@ -1,5 +1,6 @@
 .btn-container {
     display: flex;
+    justify-content: center;
     margin-top: 50px;
 }
 
@@ -17,7 +18,9 @@
 
 @media (min-width: 576px) {
     
-
+    .btn-container button {        
+        width: 40%;        
+    }
     .btn h6 {
         font-size: 18px;
     }

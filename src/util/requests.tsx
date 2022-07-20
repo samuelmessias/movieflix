@@ -96,7 +96,7 @@ axios.interceptors.response.use(
   },
   function (error) {
     if (error.response.status === 401 || error.response.status === 403) {
-      history.push('/auth');
+      history.push('/');
     }
     return Promise.reject(error);
   }

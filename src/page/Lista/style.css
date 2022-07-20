@@ -1,25 +1,13 @@
-.list-main{
- padding: 15px;
+.list-main {
+  padding: 15px;
 }
 .list-container {
-    margin: 17px 0 15px 10px;
-    color: #fff;
-    
+  margin: 17px 0 15px 10px;
+  color: #fff;
 }
 
-.list-form {
-    padding: 20px 10px;
-    height: 200px;
-    
+.list-card {
+  padding: 10px;
+  margin-top: 15px;
+  color: #9e9e9e;
 }
-
-.login-submit {
-    margin-bottom: 10px;
-  }
-
-  .list-card {
-    padding: 10px;    
-    margin-top: 15px;
-    color: #9E9E9E;
-    
-  }

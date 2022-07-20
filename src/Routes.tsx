@@ -9,16 +9,14 @@ import history from 'util/history';
 const Routes = () => (
   <Router history={history}>
     <Navbar />
-    <Switch>
-    <Redirect from="/" to="/movies" exact />
+    <Switch>    
       <Route path="/movies" exact>
         <Home />
       </Route>
       <Route path="/movies/:movieId" exact>
         <Lista />
-      </Route>      
-      <Redirect from="/auth" to="/auth/login" exact />
-      <Route path="/auth">
+      </Route>            
+      <Route path="/">
         <Auth />
       </Route>      
     </Switch>
