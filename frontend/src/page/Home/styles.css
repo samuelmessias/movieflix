@@ -9,10 +9,11 @@
   font-size: 24px;
 }
 
-.home-content {
-  margin-top: 15px;
-  color: #ffffff;
+.home-content a {
+  text-decoration: none;
 }
+
+
 
 @media (min-width: 576px) {
   .home-container h1 {

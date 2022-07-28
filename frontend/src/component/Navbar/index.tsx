@@ -1,5 +1,6 @@
 import { AuthContext } from 'AuthContext';
 import { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import history from 'util/history';
 import {
   getTokenData,
@@ -9,13 +10,8 @@ import {
 } from 'util/requests';
 import './styles.css';
 
-
-
 const Navbar = () => {
-
-const { authContextData, setAuthContextData } = useContext(AuthContext);
-
- 
+  const { authContextData, setAuthContextData } = useContext(AuthContext);
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -42,9 +38,9 @@ const { authContextData, setAuthContextData } = useContext(AuthContext);
   return (
     <nav className="bg-primary">
       <div className="nav-container">
-        <a href="link">
+        <Link to="/movies">
           <h4>MovieFlix</h4>
-        </a>
+        </Link>
 
         {authContextData.authenticated ? (
           <div className="nav-sair">

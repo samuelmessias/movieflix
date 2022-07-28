@@ -18,6 +18,20 @@
     
 }
 
+.nav-container a:hover {   
+    color: #000000;
+    text-decoration: none;
+}  
+   
+
+
+
+
+
+.nav-container h4 {
+    font-weight: bold;
+}
+
 .nav-sair {
     color: #000000;
     border-radius: 10px;
