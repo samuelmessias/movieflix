@@ -1,6 +1,7 @@
 package com.devsuperior.movieflix.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,11 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.movieflix.dto.MovieDTO;
-import com.devsuperior.movieflix.dto.MovieMinDTO;
 import com.devsuperior.movieflix.dto.ReviewDTO;
+import com.devsuperior.movieflix.entities.Genre;
 import com.devsuperior.movieflix.entities.Movie;
 import com.devsuperior.movieflix.entities.Review;
-import com.devsuperior.movieflix.projections.MovieMinProjection;
+import com.devsuperior.movieflix.repositories.GenreRepository;
 import com.devsuperior.movieflix.repositories.MovieRepository;
 import com.devsuperior.movieflix.services.exceptions.ResourceNotFoundException;
 
@@ -24,7 +25,10 @@ public class MovieService {
 	
 	@Autowired
 	private MovieRepository repository;
-
+	
+	@Autowired
+	private GenreRepository genreRepository;
+	
 	
 	@Transactional(readOnly = true)
 	public MovieDTO findById(Long id){
@@ -48,8 +52,10 @@ public class MovieService {
 	
 	
 	@Transactional(readOnly = true)
-	public Page<MovieMinDTO> findByGenre(Long genreId, Pageable pageable){
-		Page<MovieMinProjection> projs = repository.findByGenre(genreId, pageable);
-		return projs.map(x -> new MovieMinDTO(x));
+	public Page<MovieDTO> findByGenre(Long genreId, Pageable pageable){
+		List<Genre> categories = (genreId == 0) ? null : Arrays.asList(genreRepository.getOne(genreId));
+		Page<Movie> page = repository.find(categories,pageable);
+		repository.findMovies(page.getContent());
+		return page.map(x -> new MovieDTO(x));
 	}
 }

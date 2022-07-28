@@ -1,5 +1,9 @@
 .home-container {
-  margin: 12px 18px 19px 18px;
+  padding: 10px; 
+  width: 100%;
+  display: flex;
+  flex-direction: column;  
+  align-items: center;  
 }
 
 .home-container h1 {
@@ -22,6 +26,24 @@
 }
 
 @media (min-width: 776px) {
+  .home-container {
+    width: 95%;
+    margin: 0 auto;
+  }
+
+
+  .home-container h1 {
+    font-size: 48px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .home-container {
+    width: 1000px;
+    margin: 0 auto;
+  }
+
+
   .home-container h1 {
     font-size: 48px;
   }

@@ -20,26 +20,29 @@ const Home = () => {
   const [page, setPage] = useState<SpringPage<Movie>>();
   const [isLoading, setIsLoading] = useState(false);
 
-  
-
-  useEffect(() => {
+  const getMovies = (pageNumber: number) => {
     const params: AxiosRequestConfig = {
       url: '/movies',
       params: {
-        page: 0,
-        size: 20,
-        genreId:0,
+        page: pageNumber,
+        size: 3,
+        genreId: 0,
       },
       withCredentials: true,
     };
 
     setIsLoading(true);
-    requestBackend(params).then((response) => {
-      setPage(response.data);
-    })
-    .finally(() => {
-      setIsLoading(false);
-    });
+    requestBackend(params)
+      .then((response) => {
+        setPage(response.data);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    getMovies(0);
   }, []);
 
   return (
@@ -48,17 +51,20 @@ const Home = () => {
         <Searchbar />
         <div className="home-content">
           <div className="row">
-          {isLoading ? <></> : (
-            page?.content.map((movie) => (
-              <div className="col-sm-6  col-xl-3" key={movie.id}>
-                <Link to="/movies/1">
-                  <MovieCard movie={movie} />
-                </Link>
-              </div>
-            )))}           
-            <Pagination />
-          </div>         
-        </div>        
+            {isLoading ? (
+              <></>
+            ) : (
+              page?.content.map((movie) => (
+                <div className="col-sm-6  col-xl-3" key={movie.id}>
+                  <Link to="/movies/1">
+                    <MovieCard movie={movie} />
+                  </Link>
+                </div>
+              ))
+            )}
+            <Pagination pageCount={page ? page.totalPages : 0} range={3} onChange={getMovies} />
+          </div>
+        </div>
       </div>
     </>
   );
