@@ -2,8 +2,10 @@
   padding: 15px;
 }
 .list-container {
-  margin: 17px 0 15px 10px;
+  margin: 17px 0 15px 2px;
   color: #fff;
+
+  
 }
 
 .list-card {

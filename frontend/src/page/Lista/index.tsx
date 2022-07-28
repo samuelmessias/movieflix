@@ -1,8 +1,10 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import Card from 'component/Card';
+import MovieCard from 'component/MovieCard';
 import ReviewForm from 'component/ReviewForm';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Movie } from 'util/movie';
 
 import {
   BASE_URL,
@@ -22,14 +24,25 @@ const Lista = () => {
 
   const [reviews, setReview] = useState<Review[]>([]);
 
+  const [movie, setMovie] = useState<Movie>();
+
   useEffect(() => {
     const params: AxiosRequestConfig = {
       url: `/movies/${movieId}/reviews`,
       withCredentials: true,
     };
 
+    const params2: AxiosRequestConfig = {
+      url: `/movies/${movieId}`,
+      withCredentials: true,
+    };
+
     requestBackend(params).then((response) => {
       setReview(response.data);
+    });
+
+    requestBackend(params2).then((response) => {
+      setMovie(response.data);
     });
   }, [movieId]);
 
@@ -42,15 +55,21 @@ const Lista = () => {
   return (
     <div>
       <div className="list-main">
-        <div className="list-container">
-          <h1>Tela detalhe do filme id: {movieId}</h1>
-        </div>
+        {movie && (
+          <div className="list-container" key={movie.id}>
+            <MovieCard movie={movie} />
+          </div>
+        )}
         {hasAnyRoles(['ROLE_MEMBER']) && (
           <ReviewForm movieId={movieId} onInsertReview={handleInsertReview} />
         )}
         <div className="base-card list-card">
           {reviews.map((review) => {
-            return <Card review={review} />;
+            return (
+              <div key={review.id}>
+                <Card review={review} />
+              </div>
+            );
           })}
         </div>
       </div>
