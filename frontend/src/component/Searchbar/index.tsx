@@ -1,28 +1,24 @@
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import Select from 'react-select';
 import { Genre } from 'util/genre';
 import { requestBackend } from 'util/requests';
 import './styles.css';
 
-
-type FormSearchData = { 
+type FormSearchData = {
   genre: Genre;
 };
 
 const Searchbar = () => {
-
   const {
     register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
+    handleSubmit,    
+    control,
   } = useForm<FormSearchData>();
 
   const onSubmit = (formData: FormSearchData) => {
-console.log("Enviou", formData);
-  }
-
+    console.log('Enviou', formData);
+  };
 
   const [selectGenres, setSelectGenres] = useState<Genre[]>([]);
 
@@ -37,11 +33,17 @@ console.log("Enviou", formData);
   return (
     <div className="search-container">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Select
-          options={selectGenres}
-          getOptionLabel={(genre: Genre) => genre.name}
-          getOptionValue={(genre: Genre) => String(genre.id)}
-          classNamePrefix="serach-container-select"
+        <Controller
+          name="genre"
+          control={control}
+          render={({ field }) => (
+            <Select {...field}
+              options={selectGenres}
+              getOptionLabel={(genre: Genre) => genre.name}
+              getOptionValue={(genre: Genre) => String(genre.id)}
+              classNamePrefix="serach-container-select"
+            />
+          )}
         />
       </form>
     </div>
