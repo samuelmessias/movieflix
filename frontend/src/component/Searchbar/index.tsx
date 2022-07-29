@@ -5,14 +5,20 @@ import { Genre } from 'util/genre';
 import { requestBackend } from 'util/requests';
 import './styles.css';
 
-type FormSearchData = {
-  genre: Genre;
+export type FormSearchData = {
+  genre: Genre | null;
 };
 
-const Searchbar = () => {
+type Props = {
+  onSubmitFilter: (data: FormSearchData) => void;
+};
+
+const Searchbar = ({ onSubmitFilter }: Props) => {
   const {
     register,
-    handleSubmit,    
+    handleSubmit,
+    setValue,
+    getValues, 
     control,
   } = useForm<FormSearchData>();
 
@@ -30,6 +36,19 @@ const Searchbar = () => {
     );
   }, []);
 
+  const handleChangeGenre = (value: Genre) => {
+    setValue('genre', value);
+
+    const obj: FormSearchData = {     
+      genre: getValues('genre'),
+    };
+
+    onSubmitFilter(obj);
+  };
+
+
+
+
   return (
     <div className="search-container">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -39,6 +58,8 @@ const Searchbar = () => {
           render={({ field }) => (
             <Select {...field}
               options={selectGenres}
+              placeholder="Gênero"
+              onChange={(value) => handleChangeGenre(value as Genre)}
               getOptionLabel={(genre: Genre) => genre.name}
               getOptionValue={(genre: Genre) => String(genre.id)}
               classNamePrefix="serach-container-select"

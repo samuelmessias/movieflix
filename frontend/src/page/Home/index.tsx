@@ -1,10 +1,9 @@
 import { AxiosRequestConfig } from 'axios';
 import MovieCard from 'component/MovieCard';
 import Pagination from 'component/Pagination';
-import Searchbar from 'component/Searchbar';
+import Searchbar, { FormSearchData } from 'component/Searchbar';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Genre } from 'util/genre';
 import { Movie } from 'util/movie';
 
 import {
@@ -17,7 +16,8 @@ import { SpringPage } from 'util/vendor/spring';
 import './styles.css';
 
 type ControlComponentsData = {
-  actiovePage: number;
+  activePage: number;
+  filterData: FormSearchData;
 };
 
 const Home = () => {
@@ -25,20 +25,21 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [controlComponentsData, setControlComponentsData] =
-    useState<ControlComponentsData>({ actiovePage: 0 });
+    useState<ControlComponentsData>({ 
+      activePage: 0, 
+      filterData: {genre: null},
+    });
 
-  const handlePageChange = (pageNumber: number) => {
-    setControlComponentsData({ actiovePage: pageNumber });
-  };
+  
 
   useEffect(() => {
     const params: AxiosRequestConfig = {
       url: '/movies',
       params: {
-        page: controlComponentsData.actiovePage,
+        page: controlComponentsData.activePage,
         size: 4,
         sort:"title",
-        genreId: 0,
+        genreId: controlComponentsData.filterData.genre?.id,
       },
       withCredentials: true,
     };
@@ -53,10 +54,18 @@ const Home = () => {
       });
   }, [controlComponentsData]);
 
+  const handlePageChange = (pageNumber: number) => {
+    setControlComponentsData({ activePage: pageNumber, filterData: controlComponentsData.filterData});
+  };
+
+  const handleSubmitFilter = (data: FormSearchData) => {
+    setControlComponentsData({ activePage: 0, filterData: data });   
+  };
+
   return (
     <>
       <div className="home-container">
-        <Searchbar />
+        <Searchbar onSubmitFilter={handleSubmitFilter}/>
         <div className="home-content">
           <div className="row">
             {isLoading ? (
