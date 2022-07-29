@@ -16,16 +16,27 @@ import {
 import { SpringPage } from 'util/vendor/spring';
 import './styles.css';
 
+type ControlComponentsData = {
+  actiovePage: number;
+};
+
 const Home = () => {
   const [page, setPage] = useState<SpringPage<Movie>>();
   const [isLoading, setIsLoading] = useState(false);
 
-  const getMovies = (pageNumber: number) => {
+  const [controlComponentsData, setControlComponentsData] =
+    useState<ControlComponentsData>({ actiovePage: 0 });
+
+  const handlePageChange = (pageNumber: number) => {
+    setControlComponentsData({ actiovePage: pageNumber });
+  };
+
+  useEffect(() => {
     const params: AxiosRequestConfig = {
       url: '/movies',
       params: {
-        page: pageNumber,
-        size: 3,
+        page: controlComponentsData.actiovePage,
+        size: 4,
         genreId: 0,
       },
       withCredentials: true,
@@ -39,11 +50,7 @@ const Home = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  };
-
-  useEffect(() => {
-    getMovies(0);
-  }, []);
+  }, [controlComponentsData]);
 
   return (
     <>
@@ -62,7 +69,11 @@ const Home = () => {
                 </div>
               ))
             )}
-            <Pagination pageCount={page ? page.totalPages : 0} range={3} onChange={getMovies} />
+            <Pagination
+              pageCount={page ? page.totalPages : 0}
+              range={3}
+              onChange={handlePageChange}
+            />
           </div>
         </div>
       </div>
