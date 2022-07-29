@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import Card from 'component/Card';
 import MovieCard from 'component/MovieCard';
+import MovieDetail from 'component/MovieDetail';
 import ReviewForm from 'component/ReviewForm';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -57,7 +58,7 @@ const Lista = () => {
       <div className="list-main">
         {movie && (
           <div className="list-container" key={movie.id}>
-            <MovieCard movie={movie} />
+            <MovieDetail movie={movie} />
           </div>
         )}
         {hasAnyRoles(['ROLE_MEMBER']) && (

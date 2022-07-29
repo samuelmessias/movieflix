@@ -37,6 +37,7 @@ const Home = () => {
       params: {
         page: controlComponentsData.actiovePage,
         size: 4,
+        sort:"title",
         genreId: 0,
       },
       withCredentials: true,
@@ -63,7 +64,7 @@ const Home = () => {
             ) : (
               page?.content.map((movie) => (
                 <div className="col-sm-6  col-xl-3" key={movie.id}>
-                  <Link to="/movies/1">
+                  <Link to={`/movies/${movie.id}`}>
                     <MovieCard movie={movie} />
                   </Link>
                 </div>
