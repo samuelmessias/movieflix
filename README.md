@@ -58,3 +58,8 @@ yarn install
 # executar o projeto
 yarn start
 ```
+Acesse: http://localhost:3000/
+
+Login: ana@gmail.com
+
+Senha: 123456
