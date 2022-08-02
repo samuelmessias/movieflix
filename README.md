@@ -1,7 +1,7 @@
 # Projeto MovieFlix
 
 ## Sobre o projeto
-O sistema MovieFlix e um aplicação full stack web e mobile desenvolvida como um desafio do curso ***Bootcamp Spring React 3.0*** administrato pela
+O sistema MovieFlix e um aplicação full stack web e mobile desenvolvida como um desafio do curso ***Bootcamp Spring React 3.0*** administrado pela
 [DevSuperior].
 
 O sistema consiste em um banco de filmes, os quais podem ser listados e avaliados pelos usuários. Usuários podem ser visitantes (VISITOR) e membros (MEMBER). Apenas usuários membros podem inserir avaliações no sistema.
